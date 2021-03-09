@@ -1,6 +1,6 @@
 package com.codepath.apps.restclienttemplate.models;
 
-import androidx.versionedparcelable.ParcelField;
+import com.codepath.apps.restclienttemplate.TimeFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,9 +12,10 @@ import java.util.List;
 public class Tweet {
 
     public String body;
-    public String createdAt;
+    public static String createdAt;
     public long id;
     public User user;
+
 
     // empty constructor needed by the Parceler library
     public Tweet() {}
@@ -25,7 +26,12 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.id = jsonObject.getLong("id");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        Tweet.getFormattedTimestamp();
         return tweet;
+    }
+
+    public static Tweet getFormattedTimestamp() {
+        return TimeFormatter.getTimeDifference(createdAt);
     }
 
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
