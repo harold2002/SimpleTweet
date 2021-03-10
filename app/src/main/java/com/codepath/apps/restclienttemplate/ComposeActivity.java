@@ -3,11 +3,15 @@ package com.codepath.apps.restclienttemplate;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -21,10 +25,11 @@ import okhttp3.Headers;
 public class ComposeActivity extends AppCompatActivity {
 
     public static final String TAG = "ComposeActivity";
-    public static final int MAX_TWEET_LENGTH = 140;
+    public static final int MAX_TWEET_LENGTH = 280;
 
     EditText etCompose;
     Button btnTweet;
+    TextView cntTweet;
 
     TwitterClient client;
 
@@ -37,6 +42,35 @@ public class ComposeActivity extends AppCompatActivity {
 
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
+        cntTweet = findViewById(R.id.cntTweet);
+
+        etCompose.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                // Fires right as the text is being changed (even supplies the range of text)
+                int tweetLength = etCompose.getText().toString().length();
+                int charsLeft = 280 - tweetLength;
+                String charsLeftMessage = Integer.toString(charsLeft) + " characters left";
+                etCompose.setText(charsLeftMessage);
+
+                while (tweetLength > 280) {
+                    etCompose.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // Fires right before text is changing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Fires right after the text has changed
+//                etCompose.setText(280 - s.toString().length() + "/280");
+            }
+        });
 
         // Set click listener on button
         btnTweet.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +82,7 @@ public class ComposeActivity extends AppCompatActivity {
                     return;
                 }
                 if (tweetContent.length() > MAX_TWEET_LENGTH) {
-                    Toast.makeText(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ComposeActivity.this, "Sorry, your tweet is longer than 280 characters", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Toast.makeText(ComposeActivity.this, tweetContent, Toast.LENGTH_LONG).show();
@@ -68,6 +102,8 @@ public class ComposeActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+
+
 
                     @Override
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
