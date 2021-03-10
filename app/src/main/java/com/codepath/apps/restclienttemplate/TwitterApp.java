@@ -36,7 +36,8 @@ public class TwitterApp extends Application {
         return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, context);
     }
 
-    public MyDatabase getMyDatabase() {
+    public MyDatabase
+    getMyDatabase() {
         return myDatabase;
     }
 }

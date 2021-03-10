@@ -37,15 +37,12 @@
         android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvBody"
-        android:layout_alignBottom="@+id/tvScreenName"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="209dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="-4dp"
-        android:layout_toEndOf="@+id/tvScreenName"
         tools:text="8m, 7h" />
 
 </RelativeLayout>
