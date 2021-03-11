@@ -25,7 +25,7 @@ import okhttp3.Headers;
 public class ComposeActivity extends AppCompatActivity {
 
     public static final String TAG = "ComposeActivity";
-    public static final int MAX_TWEET_LENGTH = 280;
+    public static final int MAX_TWEET_LENGTH = 300;
 
     EditText etCompose;
     Button btnTweet;
@@ -51,11 +51,11 @@ public class ComposeActivity extends AppCompatActivity {
                 // Fires right as the text is being changed (even supplies the range of text)
                 int tweetLength = etCompose.getText().toString().length();
                 int charsLeft = 280 - tweetLength;
-                String charsLeftMessage = Integer.toString(charsLeft) + " characters left";
-                etCompose.setText(charsLeftMessage);
+                String charsLeftMessage = Integer.toString(charsLeft) + " /280 characters left";
+                cntTweet.setText(charsLeftMessage);
 
-                while (tweetLength > 280) {
-                    etCompose.setTextColor(Color.RED);
+                if (tweetLength > 280) {
+                    cntTweet.setTextColor(Color.RED);
                 }
             }
 
@@ -67,7 +67,7 @@ public class ComposeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Fires right after the text has changed
+//                 Fires right after the text has changed
 //                etCompose.setText(280 - s.toString().length() + "/280");
             }
         });
